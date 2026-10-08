@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center overflow-hidden px-6 pt-24"
+      className="relative flex min-h-[620px] items-center overflow-hidden px-6 pt-28 md:min-h-screen"
     >
       {/* Background Glow */}
       <div className="glow-orb left-[10%] top-[20%]" />
