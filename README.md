@@ -1,36 +1,85 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Eklakh Ansari — Personal Portfolio
 
-## Getting Started
+A modern, responsive personal portfolio website built with Next.js, TypeScript, Tailwind CSS, and Framer Motion.
 
-First, run the development server:
+The portfolio showcases my education, technical skills, projects, interests, and contact information as a Computer Science graduate and MCA student.
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌐 Live Website
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+https://eklakh-portfolio.vercel.app/
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## 👨‍💻 About Me
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+I am a Computer Science graduate currently pursuing an MCA at Thakur College of Management and Research.
 
-## Learn More
+I am interested in:
 
-To learn more about Next.js, take a look at the following resources:
+- Software Development
+- Web Technologies
+- Quality Assurance
+- Program Management
+- Problem Solving
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+I enjoy learning modern technologies and building practical projects.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 🛠️ Tech Stack
 
-## Deploy on Vercel
+- Next.js
+- React.js
+- TypeScript
+- Tailwind CSS
+- Framer Motion
+- HTML
+- CSS
+- Git & GitHub
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## ✨ Features
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- Responsive design
+- Modern dark developer-themed UI
+- Smooth animations
+- Glassmorphism components
+- Interactive navigation
+- Skills showcase
+- Project showcase
+- Education timeline
+- Contact section
+- Resume download
+- Open Graph social preview
+- Mobile-friendly layout
+
+## 📂 Featured Project
+
+### VisualizeX
+
+An interactive algorithm visualizer with an integrated online IDE designed to help users understand algorithms through visualizations and hands-on coding.
+
+**Technologies:**
+
+Next.js · React.js · TypeScript · D3.js · Python · Monaco Editor
+
+🔗 Live Project: https://visualize-x.vercel.app/
+
+## 🎓 Education
+
+**Master of Computer Applications (MCA)**  
+Thakur College of Management and Research  
+2026 – 2028
+
+**B.Sc. Computer Science**  
+Model College  
+2022 – 2025
+
+## 📫 Connect With Me
+
+- LinkedIn: https://www.linkedin.com/in/eklakh-ansari-21374b425
+- GitHub: https://github.com/Akhlaq0786
+- Portfolio: https://eklakh-portfolio.vercel.app/
+
+## 📄 Resume
+
+My resume is available on my portfolio website.
+
+---
+
+© 2026 Eklakh Abdulkhalik Ansari
