@@ -7,7 +7,7 @@ export default function Hero() {
   return (
     <section
       id="home"
-      className="relative flex min-h-screen items-center overflow-hidden px-6 pt-24"
+      className="relative mt-5 flex items-start overflow-hidden px-6 pt-24 pb-16 md:items-start"
     >
       {/* Background Glow */}
       <div className="glow-orb left-[10%] top-[20%]" />
@@ -28,7 +28,7 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="mb-4 text-sm font-medium uppercase tracking-[0.3em] text-cyan-400"
           >
-            MCA Student • Computer Science Graduate
+            MCA • Building Digital Experiences
           </motion.p>
 
           {/* Main Heading */}
@@ -36,20 +36,20 @@ export default function Hero() {
             Hi, I'm{" "}
             <motion.span
               animate={{
-              textShadow: [
-                "0 0 20px rgba(129,140,248,0.25)",
-                "0 0 35px rgba(34,211,238,0.35)",
-                "0 0 20px rgba(129,140,248,0.25)",
+                textShadow: [
+                  "0 0 20px rgba(129,140,248,0.25)",
+                  "0 0 35px rgba(34,211,238,0.35)",
+                  "0 0 20px rgba(129,140,248,0.25)",
                 ],
               }}
               transition={{
-              duration: 4,
-              repeat: Infinity,
-              ease: "easeInOut",
+                duration: 4,
+                repeat: Infinity,
+                ease: "easeInOut",
               }}
               className="gradient-text inline-block"
-              >
-                Eklakh
+            >
+              Eklakh
             </motion.span>
           </h1>
 
@@ -70,12 +70,10 @@ export default function Hero() {
             transition={{ duration: 0.6, delay: 0.5 }}
             className="mt-6 max-w-xl text-base leading-7 text-gray-400 sm:text-lg"
           >
-            I'm a Computer Science graduate currently pursuing my MCA at
-            Thakur Institute of Management Studies, Career Development and Research. I'm passionate about
-            software development, quality assurance, and program management,
-            with a strong interest in solving problems, building reliable
-            applications, and collaborating with teams to turn ideas into
-            impactful solutions.
+            I'm currently pursuing my MCA at Thakur Institute of Management Studies, Career Development and Research, 
+            with a strong interest in building practical and reliable solutions. I enjoy solving problems, learning through hands-on work, 
+            and approaching challenges with attention to detail, quality, and a structured mindset. I'm continuously working on strengthening 
+            my technical, problem-solving, collaboration, and coordination skills.
           </motion.p>
 
           {/* Buttons */}

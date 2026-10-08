@@ -65,8 +65,9 @@ export default function About() {
           </h2>
 
           <p className="mx-auto mt-5 max-w-2xl text-sm leading-7 text-gray-400 sm:text-base">
-            A Computer Science graduate and MCA student focused on learning,
-            building, and growing through practical technology projects.
+            An MCA professional in the making, focused on learning, building, and growing through practical technology projects 
+            while developing strong technical, problem-solving, and coordination skills.
+
           </p>
         </motion.div>
 

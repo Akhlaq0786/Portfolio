@@ -27,9 +27,9 @@ export const metadata: Metadata = {
   ],
   creator: "Eklakh Ansari",
   openGraph: {
-    title: "Eklakh Ansari | MCA Student & Computer Science Graduate",
+    title: "Eklakh Ansari | MCA | Developer",
     description:
-      "Computer Science graduate and MCA student building practical web applications and exploring software development, QA, and modern technologies.",
+      "MCA professional focused on software development, modern web technologies, and building practical applications.",
     type: "website",
     siteName: "Eklakh Ansari Portfolio",
     images: [
