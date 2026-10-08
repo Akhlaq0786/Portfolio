@@ -6,7 +6,7 @@ export const metadata: Metadata = {
   title: "Eklakh Ansari | MCA Student & Computer Science Graduate",
   description:
     "Portfolio of Eklakh Ansari, a Computer Science graduate and MCA student focused on software development, quality assurance, and building practical web applications.",
-    keywords: [
+  keywords: [
     "Eklakh Ansari",
     "Eklakh",
     "Computer Science",
@@ -30,12 +30,21 @@ export const metadata: Metadata = {
       "Computer Science graduate and MCA student building practical web applications and exploring software development, QA, and modern technologies.",
     type: "website",
     siteName: "Eklakh Ansari Portfolio",
+    images: [
+      {
+        url: "/og-image.png",
+        width: 1200,
+        height: 630,
+        alt: "Eklakh Ansari - MCA Student & Computer Science Graduate",
+      },
+    ],
   },
   twitter: {
-    card: "summary",
+    card: "summary_large_image",
     title: "Eklakh Ansari | MCA Student & Computer Science Graduate",
     description:
       "Computer Science graduate and MCA student focused on software development, QA, and building practical web applications.",
+    images: ["/og-image.png"],
   },
   robots: {
     index: true,
