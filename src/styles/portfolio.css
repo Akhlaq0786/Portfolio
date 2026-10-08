@@ -1,0 +1,477 @@
+/* ========================================
+   EKLAKH PORTFOLIO - GLOBAL STYLES
+   ======================================== */
+
+/* ========================================
+   BASE
+   ======================================== */
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 100px;
+}
+
+body {
+  overflow-x: hidden;
+  background: #050816;
+  color: white;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* ========================================
+   SELECTION
+   ======================================== */
+
+::selection {
+  background: rgba(99, 102, 241, 0.35);
+  color: white;
+}
+
+/* ========================================
+   CUSTOM SCROLLBAR
+   ======================================== */
+
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: #050816;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #2d365f;
+  border-radius: 999px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #4f5aa8;
+}
+
+/* Firefox */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #2d365f #050816;
+}
+
+/* ========================================
+   GLASS EFFECT
+   ======================================== */
+
+.glass {
+  background: rgba(10, 15, 30, 0.88);
+  backdrop-filter: blur(18px);
+  -webkit-backdrop-filter: blur(18px);
+  border: 1px solid rgba(148, 163, 184, 0.16);
+}
+
+/* ========================================
+   GLOW EFFECTS
+   ======================================== */
+
+.glow {
+  box-shadow:
+    0 0 30px rgba(99, 102, 241, 0.12),
+    0 0 80px rgba(59, 130, 246, 0.06);
+}
+
+.text-glow {
+  text-shadow:
+    0 0 20px rgba(129, 140, 248, 0.35),
+    0 0 40px rgba(59, 130, 246, 0.15);
+}
+
+/* ========================================
+   GRADIENT TEXT
+   ======================================== */
+
+.gradient-text {
+  background: linear-gradient(
+    90deg,
+    #818cf8,
+    #60a5fa,
+    #a78bfa
+  );
+
+  -webkit-background-clip: text;
+  background-clip: text;
+  color: transparent;
+}
+
+/* ========================================
+   FLOATING ANIMATION
+   ======================================== */
+
+@keyframes float {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-10px);
+  }
+}
+
+.float {
+  animation: float 4s ease-in-out infinite;
+}
+
+/* ========================================
+   GLOWING ORB
+   ======================================== */
+
+.glow-orb {
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  border-radius: 50%;
+  background: rgba(99, 102, 241, 0.08);
+  filter: blur(80px);
+  pointer-events: none;
+}
+
+/* ========================================
+   CARD HOVER
+   ======================================== */
+
+.card-hover {
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.card-hover:hover {
+  transform: translateY(-6px);
+  border-color: rgba(129, 140, 248, 0.3);
+  box-shadow:
+    0 15px 40px rgba(0, 0, 0, 0.25),
+    0 0 30px rgba(99, 102, 241, 0.08);
+}
+
+/* ========================================
+   BUTTON HOVER
+   ======================================== */
+
+.button-hover {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+.button-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 30px rgba(99, 102, 241, 0.2);
+}
+
+/* ========================================
+   SECTION DIVIDER
+   ======================================== */
+
+.section-divider {
+  width: 100%;
+  height: 1px;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(129, 140, 248, 0.25),
+    transparent
+  );
+}
+
+/* ========================================
+   FOCUS STATES
+   ======================================== */
+
+a:focus-visible,
+button:focus-visible {
+  outline: 2px solid rgba(34, 211, 238, 0.8);
+  outline-offset: 4px;
+}
+
+/* ========================================
+   MOBILE
+   ======================================== */
+
+@media (max-width: 768px) {
+  .glow-orb {
+    width: 200px;
+    height: 200px;
+  }
+
+  .glass {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
+
+/* ========================================
+   REDUCED MOTION
+   ======================================== */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ========================================
+   PORTFOLIO BACKGROUND
+   ======================================== */
+
+body {
+  background:
+    radial-gradient(
+      circle at 20% 10%,
+      rgba(99, 102, 241, 0.06),
+      transparent 30%
+    ),
+    radial-gradient(
+      circle at 80% 60%,
+      rgba(34, 211, 238, 0.04),
+      transparent 30%
+    ),
+    #050816;
+}
+
+/* Subtle developer-style grid */
+body::before {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  pointer-events: none;
+
+  background-image:
+    linear-gradient(
+      rgba(148, 163, 184, 0.025) 1px,
+      transparent 1px
+    ),
+    linear-gradient(
+      90deg,
+      rgba(148, 163, 184, 0.025) 1px,
+      transparent 1px
+    );
+
+  background-size: 60px 60px;
+
+  mask-image: linear-gradient(
+    to bottom,
+    black 0%,
+    rgba(0, 0, 0, 0.5) 60%,
+    transparent 100%
+  );
+}
+
+/* ========================================
+   SECTION POLISH
+   ======================================== */
+
+section {
+  position: relative;
+}
+
+/* Subtle separator between sections */
+section + section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 10%;
+  right: 10%;
+  height: 1px;
+
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(129, 140, 248, 0.12),
+    rgba(34, 211, 238, 0.15),
+    rgba(129, 140, 248, 0.12),
+    transparent
+  );
+}
+
+/* Slightly better mobile spacing */
+@media (max-width: 640px) {
+  section {
+    scroll-margin-top: 90px;
+  }
+}
+
+/* ========================================
+   SMOOTH INTERACTION POLISH
+   ======================================== */
+
+/* Smoother links and interactive elements */
+a,
+button {
+  -webkit-tap-highlight-color: transparent;
+}
+
+/* Smooth image / card rendering */
+.glass,
+.card-hover,
+.button-hover {
+  will-change: transform;
+}
+
+/* Subtle glow transition */
+.glass {
+  transition:
+    border-color 0.25s ease,
+    box-shadow 0.25s ease;
+}
+
+/* Better button interaction */
+.button-hover {
+  transition:
+    transform 0.2s ease,
+    box-shadow 0.2s ease,
+    background-color 0.2s ease;
+}
+
+.button-hover:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* Better card interaction */
+.card-hover {
+  transition:
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    box-shadow 0.2s ease;
+}
+
+/* Prevent hover effects from feeling too strong on touch devices */
+@media (hover: none) {
+  .card-hover:hover {
+    transform: none;
+    box-shadow: none;
+  }
+
+  .button-hover:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* ========================================
+   MOBILE RESPONSIVENESS POLISH
+   ======================================== */
+
+@media (max-width: 640px) {
+  /* Reduce section spacing slightly */
+  section {
+    padding-top: 5rem;
+    padding-bottom: 5rem;
+  }
+
+  /* Prevent very large text from feeling cramped */
+  h1 {
+    letter-spacing: -0.02em;
+  }
+
+  h2 {
+    letter-spacing: -0.015em;
+  }
+
+  /* Keep content comfortably inside the screen */
+  section > div {
+    max-width: 100%;
+  }
+
+  /* Smaller glow effects on phones */
+  .glow {
+    box-shadow:
+      0 0 20px rgba(99, 102, 241, 0.08),
+      0 0 50px rgba(59, 130, 246, 0.04);
+  }
+
+  /* Prevent cards from feeling too large */
+  .glass {
+    border-radius: 1rem;
+  }
+
+  /* Better text readability */
+  p {
+    text-wrap: pretty;
+  }
+}
+
+/* Extra-small phones */
+@media (max-width: 400px) {
+  section {
+    padding-left: 1rem;
+    padding-right: 1rem;
+  }
+
+  h1 {
+    font-size: 2.25rem;
+    line-height: 1.15;
+  }
+
+  h2 {
+    font-size: 1.75rem;
+  }
+}
+
+/* ========================================
+   TIMELINE POLISH
+   ======================================== */
+
+.timeline-dot {
+  box-shadow:
+    0 0 0 4px rgba(5, 8, 22, 0.9),
+    0 0 12px rgba(34, 211, 238, 0.25);
+}
+
+/* Subtle timeline glow */
+.timeline-line {
+  filter: drop-shadow(0 0 4px rgba(34, 211, 238, 0.08));
+}
+
+/* ========================================
+   FINAL VISUAL CONSISTENCY
+   ======================================== */
+
+/* Consistent glass-card borders */
+.glass {
+  border-color: rgba(148, 163, 184, 0.14);
+}
+
+/* Slightly stronger border on hover */
+.glass:hover {
+  border-color: rgba(129, 140, 248, 0.22);
+}
+
+/* Consistent cyan glow */
+.text-cyan-400 {
+  text-shadow: 0 0 12px rgba(34, 211, 238, 0.08);
+}
+
+/* Keep normal paragraphs clean */
+p.text-gray-400 {
+  text-shadow: none;
+}
+
+/* Cleaner horizontal separators */
+.section-divider {
+  opacity: 0.8;
+}
+
+/* Better text rendering across the portfolio */
+h1,
+h2,
+h3,
+h4 {
+  text-rendering: optimizeLegibility;
+}
