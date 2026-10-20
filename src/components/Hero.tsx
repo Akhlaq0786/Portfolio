@@ -1,6 +1,12 @@
 "use client";
 
-import { motion, useReducedMotion } from "framer-motion";
+import { useEffect, useState, type MouseEvent } from "react";
+import {
+  motion,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "framer-motion";
 import Link from "next/link";
 
 const fadeUp = {
@@ -8,25 +14,186 @@ const fadeUp = {
   animate: { opacity: 1, y: 0 },
 };
 
+/**
+ * True on touch-first devices (phones/tablets), including when the browser
+ * is in "Desktop site" mode. Used to lighten expensive effects on phones
+ * and to switch off mouse-only effects such as tilt.
+ */
+function useIsTouch() {
+  const [isTouch, setIsTouch] = useState(false);
+
+  useEffect(() => {
+    const query = window.matchMedia("(hover: none), (pointer: coarse)");
+    const update = () => setIsTouch(query.matches);
+
+    update();
+    query.addEventListener("change", update);
+
+    return () => query.removeEventListener("change", update);
+  }, []);
+
+  return isTouch;
+}
+
+/**
+ * Shared tilt behaviour (spring-smoothed mouse tilt),
+ * identical to the one used in the other sections.
+ */
+function useTilt(disabled: boolean, strength: number) {
+  const rotateX = useMotionValue(0);
+  const rotateY = useMotionValue(0);
+
+  const smoothRotateX = useSpring(rotateX, { stiffness: 180, damping: 22 });
+  const smoothRotateY = useSpring(rotateY, { stiffness: 180, damping: 22 });
+
+  function onMouseMove(event: MouseEvent<HTMLElement>) {
+    if (disabled) return;
+
+    const rect = event.currentTarget.getBoundingClientRect();
+    const x = (event.clientX - rect.left) / rect.width;
+    const y = (event.clientY - rect.top) / rect.height;
+
+    rotateX.set((0.5 - y) * strength);
+    rotateY.set((x - 0.5) * strength);
+  }
+
+  function reset() {
+    rotateX.set(0);
+    rotateY.set(0);
+  }
+
+  const style = disabled
+    ? undefined
+    : {
+        rotateX: smoothRotateX,
+        rotateY: smoothRotateY,
+        transformPerspective: 900,
+      };
+
+  return { onMouseMove, reset, style };
+}
+
+/**
+ * Decorative layers (corner glow + bottom sweep line), identical to the
+ * other sections. Everything is positioned with inline styles inside ONE
+ * clipped, absolutely-positioned wrapper, so it can never add height.
+ */
+function CardDecor({
+  glowClass,
+  corner = 160,
+  blur = 60,
+  touch = false,
+}: {
+  glowClass: string;
+  corner?: number;
+  blur?: number;
+  touch?: boolean;
+}) {
+  return (
+    <div
+      aria-hidden="true"
+      style={{
+        position: "absolute",
+        top: 0,
+        right: 0,
+        bottom: 0,
+        left: 0,
+        overflow: "hidden",
+        pointerEvents: "none",
+        borderRadius: "inherit",
+      }}
+    >
+      <div
+        style={{
+          position: "absolute",
+          top: -corner * 0.42,
+          right: -corner * 0.42,
+          width: corner,
+          height: corner,
+          borderRadius: "9999px",
+          filter: `blur(${touch ? Math.round(blur * 0.55) : blur}px)`,
+        }}
+        className={`${glowClass} opacity-0 transition-opacity duration-500 [@media(hover:hover)]:group-hover:opacity-100`}
+      />
+
+      <div
+        style={{
+          position: "absolute",
+          left: 0,
+          bottom: 0,
+          width: "100%",
+          height: 1,
+          transformOrigin: "left",
+        }}
+        className="scale-x-0 bg-gradient-to-r from-cyan-400 to-purple-400 transition-transform duration-500 [@media(hover:hover)]:group-hover:scale-x-100"
+      />
+    </div>
+  );
+}
+
 export default function Hero() {
-  const shouldReduceMotion = useReducedMotion();
+  const shouldReduceMotion = useReducedMotion() ?? false;
+  const isTouch = useIsTouch();
+  const tilt = useTilt(shouldReduceMotion || isTouch, 6);
+
+  const entrance = (delay: number) =>
+    shouldReduceMotion
+      ? {}
+      : {
+          variants: fadeUp,
+          initial: "initial",
+          animate: "animate",
+          transition: { duration: 0.5, delay },
+        };
+
+  // Variant label used by the buttons (never "hover", so it can't be mistaken for a CSS class)
+  const lift = shouldReduceMotion ? "rest" : "lift";
 
   return (
     <section
       id="home"
-      className="relative mt-10 overflow-hidden px-5 pb-16 pt-24 sm:px-6 sm:pb-20"
+      className="relative isolate mt-10 overflow-hidden px-5 pb-16 pt-24 sm:px-6 sm:pb-20"
     >
-      {/* Background glow */}
+      {/* Background glow (one out-of-flow wrapper, so it can't add spacing) */}
       <div
         aria-hidden="true"
-        className="glow-orb left-[10%] top-[20%]"
-      />
-      <div
-        aria-hidden="true"
-        className="glow-orb bottom-[10%] right-[5%]"
-      />
+        style={{
+          position: "absolute",
+          top: 0,
+          right: 0,
+          bottom: 0,
+          left: 0,
+          overflow: "hidden",
+          pointerEvents: "none",
+        }}
+      >
+        <div
+          style={{
+            position: "absolute",
+            left: "10%",
+            top: "20%",
+            width: 320,
+            height: 320,
+            borderRadius: "9999px",
+            filter: `blur(${isTouch ? 70 : 110}px)`,
+          }}
+          className="bg-cyan-500/[0.10]"
+        />
+        <div
+          style={{
+            position: "absolute",
+            right: "5%",
+            bottom: "10%",
+            width: 320,
+            height: 320,
+            borderRadius: "9999px",
+            filter: `blur(${isTouch ? 70 : 110}px)`,
+          }}
+          className="bg-purple-500/[0.10]"
+        />
+      </div>
 
-      <div className="mx-auto grid w-full max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-10 lg:gap-14">
+      <div className="relative mx-auto grid w-full max-w-6xl items-center gap-12 md:grid-cols-2 md:gap-10 lg:gap-14">
         {/* Left content */}
         <motion.div
           initial={shouldReduceMotion ? false : { opacity: 0, x: -30 }}
@@ -35,14 +202,14 @@ export default function Hero() {
           className="min-w-0"
         >
           <motion.p
-            {...(shouldReduceMotion
-              ? {}
-              : {
-                variants: fadeUp,
-                initial: "initial",
-                animate: "animate",
-                transition: { duration: 0.5, delay: 0.15 },
-              })}
+            {...entrance(0.05)}
+            className="mb-3 text-base font-medium text-gray-300 sm:text-lg"
+          >
+            Hi, I&apos;m <span className="text-white">Eklakh Ansari</span>
+          </motion.p>
+
+          <motion.p
+            {...entrance(0.15)}
             className="mb-4 text-xs font-medium uppercase tracking-[0.22em] text-cyan-400 sm:text-sm sm:tracking-[0.3em]"
           >
             MCA • Building Digital Experiences
@@ -51,20 +218,21 @@ export default function Hero() {
           <h1 className="text-4xl font-bold leading-[1.1] tracking-tight text-white sm:text-5xl md:text-5xl lg:text-6xl">
             Building practical solutions with{" "}
             <motion.span
+              // The pulsing glow repaints constantly, so it stays off on phones
               animate={
-                shouldReduceMotion
+                shouldReduceMotion || isTouch
                   ? {}
                   : {
-                    textShadow: [
-                      "0 0 20px rgba(129,140,248,0.25)",
-                      "0 0 35px rgba(34,211,238,0.35)",
-                      "0 0 20px rgba(129,140,248,0.25)",
-                    ],
-                  }
+                      textShadow: [
+                        "0 0 20px rgba(129,140,248,0.25)",
+                        "0 0 35px rgba(34,211,238,0.35)",
+                        "0 0 20px rgba(129,140,248,0.25)",
+                      ],
+                    }
               }
               transition={{
                 duration: 4,
-                repeat: shouldReduceMotion ? 0 : Infinity,
+                repeat: shouldReduceMotion || isTouch ? 0 : Infinity,
                 ease: "easeInOut",
               }}
               className="gradient-text inline-block"
@@ -74,28 +242,14 @@ export default function Hero() {
           </h1>
 
           <motion.h2
-            {...(shouldReduceMotion
-              ? {}
-              : {
-                variants: fadeUp,
-                initial: "initial",
-                animate: "animate",
-                transition: { duration: 0.5, delay: 0.25 },
-              })}
+            {...entrance(0.25)}
             className="mt-4 text-xl font-semibold leading-snug text-gray-300 sm:text-2xl lg:text-3xl"
           >
             Quality, purpose, and continuous improvement.
           </motion.h2>
 
           <motion.p
-            {...(shouldReduceMotion
-              ? {}
-              : {
-                variants: fadeUp,
-                initial: "initial",
-                animate: "animate",
-                transition: { duration: 0.5, delay: 0.35 },
-              })}
+            {...entrance(0.35)}
             className="mt-5 max-w-xl text-sm leading-7 text-gray-400 sm:mt-6 sm:text-base lg:text-lg"
           >
             I&apos;m currently pursuing my MCA at Thakur Institute of
@@ -108,30 +262,52 @@ export default function Hero() {
 
           {/* Action buttons */}
           <motion.div
-            {...(shouldReduceMotion
-              ? {}
-              : {
-                variants: fadeUp,
-                initial: "initial",
-                animate: "animate",
-                transition: { duration: 0.5, delay: 0.45 },
-              })}
+            {...entrance(0.45)}
             className="mt-7 flex flex-wrap gap-3 sm:mt-8 sm:gap-4"
           >
-            <Link
-              href="#projects"
-              className="button-hover inline-flex min-h-11 items-center justify-center rounded-xl bg-cyan-400 px-5 py-3 text-sm font-semibold text-black sm:px-6 sm:text-base"
+            {/* Primary: light sweeps left to right on hover (same as Contact) */}
+            <motion.div
+              initial="rest"
+              animate="rest"
+              whileHover={lift}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+              variants={{
+                rest: { y: 0, scale: 1 },
+                lift: { y: -3, scale: 1.02 },
+              }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className="inline-flex"
             >
-              View Projects
-            </Link>
+              <Link
+                href="#projects"
+                className="button-hover relative inline-flex min-h-11 items-center justify-center overflow-hidden rounded-xl bg-cyan-400 px-5 py-3 text-sm font-semibold text-black outline-none focus-visible:ring-2 focus-visible:ring-cyan-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c18] sm:px-6 sm:text-base"
+              >
+                <motion.span
+                  aria-hidden="true"
+                  variants={{
+                    rest: { x: "-130%" },
+                    lift: { x: "330%" },
+                  }}
+                  transition={{ duration: 0.7, ease: "easeInOut" }}
+                  className="pointer-events-none absolute inset-y-0 left-0 w-1/3 -skew-x-12 bg-gradient-to-r from-transparent via-white/40 to-transparent"
+                />
+                <span className="relative">View Projects</span>
+              </Link>
+            </motion.div>
 
-            <Link
+            {/* Secondary: a plain link, since this downloads a file rather than opening a page */}
+            <motion.a
               href="/resume.pdf"
               download="Eklakh_Ansari_Resume.pdf"
-              className="button-hover inline-flex min-h-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white backdrop-blur-md sm:px-6 sm:text-base"
+              whileHover={shouldReduceMotion ? undefined : { y: -3, scale: 1.02 }}
+              whileTap={shouldReduceMotion ? undefined : { scale: 0.98 }}
+              transition={{ duration: 0.2, ease: "easeOut" }}
+              className={`button-hover inline-flex min-h-11 items-center justify-center rounded-xl border border-white/10 bg-white/5 px-5 py-3 text-sm font-semibold text-white outline-none transition-colors duration-200 [@media(hover:hover)]:hover:border-purple-300/30 [@media(hover:hover)]:hover:bg-purple-300/[0.07] focus-visible:ring-2 focus-visible:ring-purple-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c18] sm:px-6 sm:text-base ${
+                isTouch ? "" : "backdrop-blur-md"
+              }`}
             >
               Download Resume
-            </Link>
+            </motion.a>
           </motion.div>
 
           {/* Social links */}
@@ -145,18 +321,24 @@ export default function Hero() {
               href="https://github.com/Akhlaq0786"
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors duration-300 hover:text-cyan-400"
+              className="group relative py-1 outline-none transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gradient-to-r after:from-cyan-400 after:to-purple-400 after:transition-transform after:duration-500 [@media(hover:hover)]:hover:text-cyan-400 [@media(hover:hover)]:hover:after:scale-x-100 focus-visible:text-cyan-400 focus-visible:after:scale-x-100"
             >
-              GitHub ↗
+              GitHub{" "}
+              <span className="inline-block transition-transform duration-300 [@media(hover:hover)]:group-hover:-translate-y-0.5 [@media(hover:hover)]:group-hover:translate-x-0.5">
+                ↗
+              </span>
             </a>
 
             <a
               href="https://www.linkedin.com/in/eklakh-ansari-21374b425"
               target="_blank"
               rel="noopener noreferrer"
-              className="transition-colors duration-300 hover:text-cyan-400"
+              className="group relative py-1 outline-none transition-colors duration-300 after:absolute after:bottom-0 after:left-0 after:h-px after:w-full after:origin-left after:scale-x-0 after:bg-gradient-to-r after:from-cyan-400 after:to-purple-400 after:transition-transform after:duration-500 [@media(hover:hover)]:hover:text-cyan-400 [@media(hover:hover)]:hover:after:scale-x-100 focus-visible:text-cyan-400 focus-visible:after:scale-x-100"
             >
-              LinkedIn ↗
+              LinkedIn{" "}
+              <span className="inline-block transition-transform duration-300 [@media(hover:hover)]:group-hover:-translate-y-0.5 [@media(hover:hover)]:group-hover:translate-x-0.5">
+                ↗
+              </span>
             </a>
           </motion.div>
         </motion.div>
@@ -184,20 +366,29 @@ export default function Hero() {
                 shouldReduceMotion
                   ? {}
                   : {
-                    opacity: [0.25, 0.65, 0.25],
-                    scale: [0.96, 1.04, 0.96],
-                  }
+                      opacity: [0.25, 0.65, 0.25],
+                      scale: [0.96, 1.04, 0.96],
+                    }
               }
               transition={{
                 duration: 2.8,
                 repeat: shouldReduceMotion ? 0 : Infinity,
                 ease: "easeInOut",
               }}
-              className="absolute -inset-2 rounded-[2rem] bg-gradient-to-br from-cyan-400/30 via-blue-500/10 to-purple-500/30 blur-xl"
+              className={`absolute -inset-2 rounded-[2rem] bg-gradient-to-br from-cyan-400/30 via-blue-500/10 to-purple-500/30 ${
+                isTouch ? "blur-lg" : "blur-xl"
+              }`}
             />
 
-            {/* Card shell */}
-            <div className="glass glow relative isolate flex aspect-square items-center justify-center overflow-hidden rounded-3xl border border-cyan-300/20 p-4 sm:p-6 lg:p-8">
+            {/* Card shell: tilts with the mouse on desktop */}
+            <motion.div
+              onMouseMove={tilt.onMouseMove}
+              onMouseLeave={tilt.reset}
+              style={tilt.style}
+              className="glass glow group relative isolate flex aspect-square items-center justify-center overflow-hidden rounded-3xl border border-cyan-300/20 p-4 sm:p-6 lg:p-8"
+            >
+              <CardDecor glowClass="bg-cyan-400/15" touch={isTouch} />
+
               {/* Slow moving light sweep */}
               {!shouldReduceMotion && (
                 <motion.div
@@ -250,7 +441,9 @@ export default function Hero() {
                 <div className="mt-4 flex items-center justify-center gap-2 text-[10px] text-gray-500 sm:mt-6 sm:text-xs">
                   <motion.span
                     aria-hidden="true"
-                    animate={shouldReduceMotion ? {} : { opacity: [1, 0.45, 1] }}
+                    animate={
+                      shouldReduceMotion ? {} : { opacity: [1, 0.45, 1] }
+                    }
                     transition={{
                       duration: 1.3,
                       repeat: shouldReduceMotion ? 0 : Infinity,
@@ -261,7 +454,7 @@ export default function Hero() {
                   <span>Currently learning &amp; building</span>
                 </div>
               </div>
-            </div>
+            </motion.div>
           </motion.div>
         </motion.div>
       </div>

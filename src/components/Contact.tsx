@@ -137,7 +137,7 @@ function CardDecor({
               ? "opacity-100"
               : touch
               ? "opacity-70"
-              : "opacity-0 group-hover:opacity-100"
+              : "opacity-0 [@media(hover:hover)]:group-hover:opacity-100"
           }`}
         />
       )}
@@ -156,8 +156,8 @@ function CardDecor({
           active
             ? "opacity-100"
             : subtle
-            ? "opacity-40 group-hover:opacity-100"
-            : "opacity-0 group-hover:opacity-100"
+            ? "opacity-40 [@media(hover:hover)]:group-hover:opacity-100"
+            : "opacity-0 [@media(hover:hover)]:group-hover:opacity-100"
         }`}
       />
 
@@ -171,7 +171,7 @@ function CardDecor({
           transformOrigin: "left",
         }}
         className={`bg-gradient-to-r from-cyan-400 to-purple-400 transition-transform duration-500 ${
-          active ? "scale-x-100" : "scale-x-0 group-hover:scale-x-100"
+          active ? "scale-x-100" : "scale-x-0 [@media(hover:hover)]:group-hover:scale-x-100"
         }`}
       />
     </div>
@@ -226,7 +226,7 @@ function ContactCard({
       className={`glass card-hover group relative isolate block overflow-hidden rounded-2xl border p-5 outline-none transition-[border-color,box-shadow,background-color] duration-300 focus-visible:ring-2 focus-visible:ring-cyan-300/60 sm:p-6 ${
         focused
           ? "border-cyan-400/40 bg-cyan-400/[0.05] shadow-[0_0_28px_rgba(34,211,238,0.12)]"
-          : "border-white/5 hover:border-cyan-400/30 hover:shadow-[0_0_30px_rgba(34,211,238,0.08)]"
+          : "border-white/5 [@media(hover:hover)]:hover:border-cyan-400/30 [@media(hover:hover)]:hover:shadow-[0_0_30px_rgba(34,211,238,0.08)]"
       }`}
     >
       <CardDecor
@@ -241,7 +241,7 @@ function ContactCard({
 
       <div className="relative z-10 flex items-center gap-4">
         {/* Icon */}
-        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/[0.08] font-mono text-sm font-semibold text-cyan-400 transition-colors duration-300 group-hover:border-cyan-400/50 group-hover:bg-cyan-400/10">
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl border border-cyan-400/30 bg-cyan-400/[0.08] font-mono text-sm font-semibold text-cyan-400 transition-colors duration-300 [@media(hover:hover)]:group-hover:border-cyan-400/50 [@media(hover:hover)]:group-hover:bg-cyan-400/10">
           {contact.icon}
         </div>
 
@@ -251,7 +251,7 @@ function ContactCard({
             {contact.name}
           </p>
 
-          <p className="mt-1 truncate text-sm text-gray-200 transition-colors duration-300 group-hover:text-cyan-300">
+          <p className="mt-1 truncate text-sm text-gray-200 transition-colors duration-300 [@media(hover:hover)]:group-hover:text-cyan-300">
             {contact.value}
           </p>
         </div>
@@ -259,7 +259,7 @@ function ContactCard({
         {/* Arrow nudges up and right on hover */}
         <span
           aria-hidden="true"
-          className="shrink-0 text-sm text-gray-600 transition-all duration-300 group-hover:-translate-y-0.5 group-hover:translate-x-0.5 group-hover:text-cyan-300"
+          className="shrink-0 text-sm text-gray-600 transition-all duration-300 [@media(hover:hover)]:group-hover:-translate-y-0.5 [@media(hover:hover)]:group-hover:translate-x-0.5 [@media(hover:hover)]:group-hover:text-cyan-300"
         >
           ↗
         </span>
@@ -460,7 +460,7 @@ export default function Contact() {
                 whileHover={reduceMotion ? undefined : { y: -4, scale: 1.02 }}
                 whileTap={reduceMotion ? undefined : { scale: 0.98 }}
                 transition={{ duration: 0.2, ease: "easeOut" }}
-                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-7 py-3.5 font-semibold text-white outline-none transition-colors duration-200 hover:border-purple-300/30 hover:bg-purple-300/[0.07] focus-visible:ring-2 focus-visible:ring-purple-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c18]"
+                className="inline-flex min-h-12 items-center justify-center rounded-xl border border-white/10 bg-white/[0.04] px-7 py-3.5 font-semibold text-white outline-none transition-colors duration-200 [@media(hover:hover)]:hover:border-purple-300/30 [@media(hover:hover)]:hover:bg-purple-300/[0.07] focus-visible:ring-2 focus-visible:ring-purple-300 focus-visible:ring-offset-2 focus-visible:ring-offset-[#080c18]"
               >
                 <span aria-live="polite">
                   <motion.span
